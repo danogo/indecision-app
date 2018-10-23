@@ -1,0 +1,17 @@
+{
+  "name": "indecision-app",
+  "version": "1.0.0",
+  "description": "simple react app",
+  "main": "index.js",
+  "scripts": {
+    "babel": "babel src/app.js --out-file=public/scripts/app.js --watch"
+  },
+  "author": "Daniel Ogonowski",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0"
+  }
+}
