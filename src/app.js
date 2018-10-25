@@ -1,54 +1,54 @@
-console.log('App is running!');
-
-const app = {
-  title: 'Indecision App',
-  subtitle: 'Do what we tell you to do :)',
-  options: []
-};
-
-const onFormSubmit = (event) => {
-  event.preventDefault();
-  const inputValue = event.target.elements.option.value;
-  if (inputValue) {
-    app.options.push(inputValue);
-    event.target.elements.option.value = '';
-    renderTemplate();
+class Header extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>Indecision App</h1>
+        <h2>Put your life in the hands of a computer</h2>
+      </div>
+    );
   }
 }
 
-const onRemoveAll = () => {
-  app.options = [];
-  renderTemplate();
+class Action extends React.Component {
+  render() {
+    return (
+      <div>
+        <button>What should I do?</button>
+      </div>
+    );
+  }
 }
 
-const onMakeDecision = () => {
-  const randomNum = Math.floor(Math.random() * app.options.length);
-  const randomOption = app.options[randomNum];
-  alert(randomOption);
+class Options extends React.Component {
+  render() {
+    return (
+      <div>
+        <p>Here are the options</p>
+      </div>
+    );
+  }
 }
 
-const appRoot = document.getElementById('app');
-
-const renderTemplate = () => {
-  const template = (
-    <div>
-      <h1>{app.title}</h1>
-      {app.subtitle && <p>{app.subtitle}</p>}
-      <p>{app.options.length > 0 ? 'Here are your options:' : 'Sorry, there are no options to show.'}</p>
-      <button onClick={onMakeDecision} disabled={app.options.length === 0}>What should I do?</button>
-      <button onClick={onRemoveAll}>Remove All</button>
-      <ol>
-        {
-          app.options.map(opt => <li key={opt}>{opt}</li>)
-        }
-      </ol>
-      <form onSubmit={onFormSubmit}>
-        <input type="text" name="option"/>
-        <button>Add Option</button>
-      </form>
-    </div>
-  );
-  ReactDOM.render(template, appRoot);
+class AddOption extends React.Component {
+  render() {
+    return (
+      <div>
+        <form>
+          <input type="text" name="newOption"/>
+          <input type="submit" value="Add Option"/>
+        </form>
+      </div>
+    );
+  }
 }
 
-renderTemplate();
+const jsx = (
+  <div>
+    <Header />
+    <Action />
+    <Options />
+    <AddOption /> 
+  </div>
+);
+
+ReactDOM.render(jsx, document.getElementById('app'));

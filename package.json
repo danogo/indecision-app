@@ -4,7 +4,8 @@
   "description": "simple react app",
   "main": "index.js",
   "scripts": {
-    "babel": "babel src/app.js --out-file=public/scripts/app.js --watch"
+    "babel": "babel src/app.js --out-file=public/scripts/app.js --watch",
+    "start": "live-server public/"
   },
   "author": "Daniel Ogonowski",
   "license": "MIT",
