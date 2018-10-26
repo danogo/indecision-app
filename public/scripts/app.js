@@ -2,6 +2,14 @@
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -10,37 +18,81 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 var IndecisionApp =
 /*#__PURE__*/
 function (_React$Component) {
   _inherits(IndecisionApp, _React$Component);
 
-  function IndecisionApp() {
+  function IndecisionApp(props) {
+    var _this;
+
     _classCallCheck(this, IndecisionApp);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(IndecisionApp).apply(this, arguments));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(IndecisionApp).call(this, props));
+    _this.handleDeleteOptions = _this.handleDeleteOptions.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handlePick = _this.handlePick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleAddOption = _this.handleAddOption.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.state = {
+      options: []
+    };
+    return _this;
   }
 
   _createClass(IndecisionApp, [{
+    key: "handleDeleteOptions",
+    value: function handleDeleteOptions() {
+      this.setState(function () {
+        return {
+          options: []
+        };
+      });
+    }
+  }, {
+    key: "handlePick",
+    value: function handlePick() {
+      var randomNum = Math.floor(Math.random() * this.state.options.length);
+      alert(this.state.options[randomNum]);
+    }
+  }, {
+    key: "handleAddOption",
+    value: function handleAddOption(newOption) {
+      if (!newOption) {
+        return 'Enter valid value to add an item';
+      } else if (this.state.options.includes(newOption)) {
+        return 'This option already exists';
+      }
+
+      this.setState(function (prevState) {
+        return {
+          options: _toConsumableArray(prevState.options).concat([newOption])
+        };
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       var title = 'Indecision';
       var subtitle = 'Put your life in the hands of a computer';
-      var options = ['Thing one', 'Thing two', 'Thing three'];
       return React.createElement("div", null, React.createElement(Header, {
         title: title,
         subtitle: subtitle
-      }), React.createElement(Action, null), React.createElement(Options, {
-        options: options
-      }), React.createElement(AddOption, null));
+      }), React.createElement(Action, {
+        hasOptions: this.state.options.length > 0,
+        onPick: this.handlePick
+      }), React.createElement(Options, {
+        options: this.state.options,
+        onDeleteOptions: this.handleDeleteOptions
+      }), React.createElement(AddOption, {
+        onAddOption: this.handleAddOption
+      }));
     }
   }]);
 
@@ -80,15 +132,11 @@ function (_React$Component3) {
   }
 
   _createClass(Action, [{
-    key: "handlePick",
-    value: function handlePick() {
-      alert('Picked an option');
-    }
-  }, {
     key: "render",
     value: function render() {
       return React.createElement("div", null, React.createElement("button", {
-        onClick: this.handlePick
+        onClick: this.props.onPick,
+        disabled: !this.props.hasOptions
       }, "What should I do?"));
     }
   }]);
@@ -101,19 +149,15 @@ var Options =
 function (_React$Component4) {
   _inherits(Options, _React$Component4);
 
-  function Options(props) {
-    var _this;
-
+  function Options() {
     _classCallCheck(this, Options);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Options).call(this, props));
-    _this.handleRemoveAll = _this.handleRemoveAll.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    return _this;
+    return _possibleConstructorReturn(this, _getPrototypeOf(Options).apply(this, arguments));
   }
 
   _createClass(Options, [{
-    key: "getOptions",
-    value: function getOptions(optionsArr) {
+    key: "populateOptions",
+    value: function populateOptions(optionsArr) {
       return optionsArr.map(function (option) {
         return React.createElement(Option, {
           key: option,
@@ -122,17 +166,11 @@ function (_React$Component4) {
       });
     }
   }, {
-    key: "handleRemoveAll",
-    value: function handleRemoveAll() {
-      // alert('All options have been deleted.');
-      console.log(this.props.options);
-    }
-  }, {
     key: "render",
     value: function render() {
       return React.createElement("div", null, React.createElement("button", {
-        onClick: this.handleRemoveAll
-      }, "Remove All"), this.getOptions(this.props.options));
+        onClick: this.props.onDeleteOptions
+      }, "Remove All"), this.populateOptions(this.props.options));
     }
   }]);
 
@@ -165,10 +203,17 @@ var AddOption =
 function (_React$Component6) {
   _inherits(AddOption, _React$Component6);
 
-  function AddOption() {
+  function AddOption(props) {
+    var _this2;
+
     _classCallCheck(this, AddOption);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(AddOption).apply(this, arguments));
+    _this2 = _possibleConstructorReturn(this, _getPrototypeOf(AddOption).call(this, props));
+    _this2.handleAddOption = _this2.handleAddOption.bind(_assertThisInitialized(_assertThisInitialized(_this2)));
+    _this2.state = {
+      error: undefined
+    };
+    return _this2;
   }
 
   _createClass(AddOption, [{
@@ -176,16 +221,18 @@ function (_React$Component6) {
     value: function handleAddOption(e) {
       e.preventDefault();
       var inputValue = e.target.elements.option.value.trim();
-
-      if (inputValue) {
-        e.target.elements.option.value = '';
-        alert('Here is your added option: ' + inputValue);
-      }
+      e.target.elements.option.value = '';
+      var error = this.props.onAddOption(inputValue);
+      this.setState(function () {
+        return {
+          error: error
+        };
+      });
     }
   }, {
     key: "render",
     value: function render() {
-      return React.createElement("div", null, React.createElement("form", {
+      return React.createElement("div", null, this.state.error && React.createElement("p", null, this.state.error), React.createElement("form", {
         onSubmit: this.handleAddOption
       }, React.createElement("input", {
         type: "text",
