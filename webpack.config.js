@@ -22,5 +22,6 @@ module.exports = {
         exclude: /node_modules/
       }
     ]
-  }
-}
+  },
+  devtool: 'cheap-module-eval-source-map'
+};
