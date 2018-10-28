@@ -6,7 +6,28 @@ class IndecisionApp extends React.Component {
     this.handleAddOption = this.handleAddOption.bind(this);
     this.handleDeleteOption = this.handleDeleteOption.bind(this);
     this.state = {
-      options : props.options
+      options : []
+    }
+  }
+
+  componentDidMount() {
+    // try to fetch options from localStorage
+    try {
+      // if fetched options are not null and it is correct json data set state options to that data
+      const json = localStorage.getItem('options');
+      const options = JSON.parse(json);
+      if (options) {
+        this.setState(() => ({ options }));
+      }
+    } catch (err) {
+      // do nothing if there is an error when parsing json
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.options.length !== this.state.options.length) {
+      const json = JSON.stringify(this.state.options);
+      localStorage.setItem('options', json);
     }
   }
 
@@ -61,10 +82,6 @@ class IndecisionApp extends React.Component {
   }
 }
 
-IndecisionApp.defaultProps = {
-  options: []
-};
-
 const Header = props => {
     return (
       <div>
@@ -94,6 +111,7 @@ const Options = props => {
   return (
     <div>
       <button onClick={props.onDeleteOptions}>Remove All</button>
+      { props.options.length === 0 && <p>Please add some options to choose from.</p>}
       {
         props.options.map(option => (
           <Option 
@@ -129,9 +147,12 @@ class AddOption extends React.Component {
   handleAddOption(e) {
     e.preventDefault();
     const inputValue = e.target.elements.option.value.trim();
-    e.target.elements.option.value = '';
-
     const error = this.props.onAddOption(inputValue);
+    // clear input only if submitted value is correct
+    if (!error) {
+      e.target.elements.option.value = '';
+    }
+    // otherwise set proper error to show, and leave input value as it is to give user chance to correct
     this.setState(() => ({ error }));
   }
 
