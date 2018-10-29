@@ -5,7 +5,7 @@ const Option = props => {
   return (
     <div>
       <p>{props.optionText}</p>
-      <button onClick={onClickRemove}>Remove</button>
+      <button onClick={onClickRemove} className="btn btn--link">Remove</button>
     </div>
   );
 };

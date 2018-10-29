@@ -16,3 +16,13 @@ body {
   box-sizing: border-box;
   background: $color-blue-dark;
 }
+
+input[type='submit'],
+button {
+  cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+  }
+}
+
