@@ -6,16 +6,40 @@ import Header from './Header';
 import Action from './Action';
 
 export default class IndecisionApp extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
-    this.handlePick = this.handlePick.bind(this);
-    this.handleAddOption = this.handleAddOption.bind(this);
-    this.handleDeleteOption = this.handleDeleteOption.bind(this);
-    this.state = {
-      options : []
+  state = {
+    options: []
+  };
+
+  handlePick = () => {
+    const randomNum = Math.floor(Math.random() * this.state.options.length);
+    alert(this.state.options[randomNum]);
+  };
+
+  handleDeleteOptions = () => {
+    this.setState(() => ({ options: [] }));
+  };
+
+  handleDeleteOption = optionToRemove => {
+    this.setState(prevState => ({
+        options : prevState.options.filter(option => option !== optionToRemove) 
+      })
+    );
+  };
+
+  handleAddOption = newOption => {
+    if (!newOption) {
+      return 'Enter valid value to add an item';
+    } 
+    
+    const duplicate = this.state.options.find(opt => opt.toLowerCase() === newOption.toLowerCase());
+    if (duplicate) {
+      return 'This option already exists';
     }
-  }
+
+    this.setState(prevState => ({ 
+      options: [...prevState.options, newOption]}
+    ));
+  };
 
   componentDidMount() {
     // try to fetch options from localStorage
@@ -36,37 +60,6 @@ export default class IndecisionApp extends React.Component {
       const json = JSON.stringify(this.state.options);
       localStorage.setItem('options', json);
     }
-  }
-
-  handleDeleteOptions() {
-    this.setState(() => ({ options: [] }));
-  }
-
-  handleDeleteOption(optionToRemove) {
-    this.setState(prevState => ({
-        options : prevState.options.filter(option => option !== optionToRemove) 
-      })
-    );
-  }
-
-  handlePick() {
-    const randomNum = Math.floor(Math.random() * this.state.options.length);
-    alert(this.state.options[randomNum]);
-  }
-
-  handleAddOption(newOption) {
-    if (!newOption) {
-      return 'Enter valid value to add an item';
-    } 
-    
-    const duplicate = this.state.options.find(opt => opt.toLowerCase() === newOption.toLowerCase());
-    if (duplicate) {
-      return 'This option already exists';
-    }
-
-    this.setState(prevState => ({ 
-      options: [...prevState.options, newOption]}
-    ));
   }
 
   render() {

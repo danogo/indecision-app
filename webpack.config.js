@@ -11,7 +11,7 @@ module.exports = {
   },
   devServer: {
     // place from what to serve via webpack-dev-server
-    contentBase: './public'
+    contentBase: path.join(__dirname, 'public')
   },
   module: {
     rules: [
