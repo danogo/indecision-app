@@ -17,9 +17,22 @@ module.exports = {
     rules: [
       { 
         // loader: or use:
-        loader: 'babel-loader',
+        loader: 'babel-loader', // transpiles jsx and ES6 into ES5 using babel-core package (installed via npm)
         test: /\.js$/,
         exclude: /node_modules/
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          { loader: 'style-loader' }, // creates style nodes from JS strings, injects that style element into our html
+          {
+            loader: 'css-loader', // translates CSS into CommonJS, result of that is used by style-loader
+            options: {
+              modules: true
+            }
+          },
+          { loader: 'sass-loader' } // compiles Sass to CSS, using node-sass package by default (installed via npm)
+        ]
       }
     ]
   },
