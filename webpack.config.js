@@ -28,7 +28,7 @@ module.exports = {
           {
             loader: 'css-loader', // translates CSS into CommonJS, result of that is used by style-loader
             options: {
-              modules: true
+              modules: false // it is false by default, global scss styles don't work if modules are true
             }
           },
           { loader: 'sass-loader' } // compiles Sass to CSS, using node-sass package by default (installed via npm)
