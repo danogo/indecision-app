@@ -22,7 +22,7 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.scss$/,
+        test: /\.s?css$/, // test for css or scss files
         use: [
           { loader: 'style-loader' }, // creates style nodes from JS strings, injects that style element into our html
           {
