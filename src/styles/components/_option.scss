@@ -8,10 +8,7 @@
     color: $color-white;
     font-weight: 500;
     font-size: 2rem;
-    max-width: 80%;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    hyphens: auto;
+    word-break: break-all;
   }
 }
 

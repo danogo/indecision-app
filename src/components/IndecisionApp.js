@@ -45,9 +45,9 @@ export default class IndecisionApp extends React.Component {
   };
 
   handleClearSelectedOption = () => {
-    this.setState(() => ({
-      selectedOption: null
-    }));
+      this.setState(() => ({
+        selectedOption: null
+      }));
   };
 
   componentDidMount() {
