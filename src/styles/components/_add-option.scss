@@ -20,3 +20,14 @@
     padding: $s-size;
   }
 }
+
+@media only screen and (max-width: $breakpoint-mobile) {
+  .add-option {
+    flex-flow: column;
+
+    &__input {
+      margin-right: 0;
+      margin-bottom: $s-size;
+    }
+  }
+}
